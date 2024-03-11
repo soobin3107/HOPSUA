@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 namespace HOPSUA
@@ -7,83 +7,7 @@ namespace HOPSUA
     {
         public string NhanHieu { get; set; }
         public float TrongLuong { get; set; }
-        public NGAY HanSuDung { get; set; }
-    }
-
-    public class NGAY
-    {
-        const int minYear = 1900, maxYear = 10000;
-        public int Ngay { get; set; }
-        public int Thang { get; set; }
-        public int Nam { get; set; }
-
-        public bool KTNN(int year)
-        {
-            return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
-        }
-
-        public int TimSoNgayTrongThang()
-        {
-            int NgayTrongThang;
-            switch (Thang)
-            {
-                case 1:
-                case 3:
-                case 5:
-                case 7:
-                case 8:
-                case 10:
-                case 12:
-                    NgayTrongThang = 31;
-                    break;
-                case 4:
-                case 6:
-                case 9:
-                case 11:
-                    NgayTrongThang = 30;
-                    break;
-                case 2:
-                    NgayTrongThang = KTNN(Nam) ? 29 : 28;
-                    break;
-                default:
-                    NgayTrongThang = 0;
-                    break;
-            }
-            return NgayTrongThang;
-        }
-
-        public void XuatNgay()
-        {
-            Console.WriteLine($"{Ngay}/{Thang}/{Nam}");
-        }
-
-        public void NhapHSD()
-        {
-            do
-            {
-                Console.Write("Nhập vào Năm: ");
-                Nam = int.Parse(Console.ReadLine());
-                if (Nam < minYear || Nam > maxYear)
-                    Console.WriteLine("Dữ liệu nhập không hợp lệ. Xin kiểm tra lại!");
-            } while (Nam < minYear || Nam > maxYear);
-
-            do
-            {
-                Console.Write("Nhập vào Tháng: ");
-                Thang = int.Parse(Console.ReadLine());
-                if (Thang < 1 || Thang > 12)
-                    Console.WriteLine("Dữ liệu nhập không hợp lệ. Xin kiểm tra lại!");
-            } while (Thang < 1 || Thang > 12);
-
-            int NgayTrongThang = TimSoNgayTrongThang();
-            do
-            {
-                Console.Write("Nhập vào Ngày: ");
-                Ngay = int.Parse(Console.ReadLine());
-                if (Ngay < 1 || Ngay > NgayTrongThang)
-                    Console.WriteLine("Dữ liệu nhập không hợp lệ. Xin kiểm tra lại!");
-            } while (Ngay < 1 || Ngay > NgayTrongThang);
-        }
+        public DateTime HanSuDung { get; set; }
     }
 
     public class NhapXuatHopSua
@@ -97,16 +21,23 @@ namespace HOPSUA
             a.TrongLuong = float.Parse(Console.ReadLine());
 
             Console.WriteLine("--Nhập Hạn Sử Dụng--");
-            a.HanSuDung = new NGAY();
-            a.HanSuDung.NhapHSD();
+            Console.Write("Nhập Năm: ");
+            int year = int.Parse(Console.ReadLine());
+
+            Console.Write("Nhập Tháng: ");
+            int month = int.Parse(Console.ReadLine());
+
+            Console.Write("Nhập Ngày: ");
+            int day = int.Parse(Console.ReadLine());
+
+            a.HanSuDung = new DateTime(year, month, day);
         }
 
         public static void XuatHS(HopSua a)
         {
             Console.WriteLine($"Nhãn Hiệu: {a.NhanHieu}");
             Console.WriteLine($"Trọng Lượng: {a.TrongLuong}(g)");
-            Console.Write($"Hạn Sử Dụng: ");
-            a.HanSuDung.XuatNgay();
+            Console.WriteLine($"Hạn Sử Dụng: {a.HanSuDung.ToString("dd/MM/yyyy")}");
         }
     }
 
